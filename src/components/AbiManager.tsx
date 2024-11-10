@@ -3,6 +3,7 @@ import { type Abi, formatAbi } from 'abitype'
 import { Copy, Check } from 'lucide-react'
 import type { AbiItem, ItemFilters } from '../types'
 import styles from './AbiManager.module.css'
+import { ItemDetails } from './ItemDetails'
 
 interface FormatOptions {
   indentation: number
@@ -112,7 +113,7 @@ export default function AbiManager() {
       <div className={styles.previewSection}>
         <div className={styles.previewBox}>
           <div className={styles.previewControls}>
-            <div className={styles.previewLabel}>JSON ABI Preview</div>
+            <div className={styles.previewLabel}>JSON ABI</div>
             <button
               className={`${styles.copyButton} ${styles.tooltip}`}
               onClick={() => copyToClipboard('json')}
@@ -136,7 +137,7 @@ export default function AbiManager() {
         </div>
         <div className={styles.previewBox}>
           <div className={styles.previewControls}>
-            <div className={styles.previewLabel}>Human Readable ABI Preview</div>
+            <div className={styles.previewLabel}>Human Readable ABI</div>
             <button
               className={`${styles.copyButton} ${styles.tooltip}`}
               onClick={() => copyToClipboard('human')}
@@ -229,51 +230,6 @@ export default function AbiManager() {
     },
     [getSelectedAbi]
   )
-
-  const renderItemDetails = (item: AbiItem) => {
-    const getTypeTag = () => {
-      const typeClasses = `${styles.typeTag} ${styles[item.type]}`
-      return <span className={typeClasses}>{item.type.toUpperCase()}</span>
-    }
-
-    const renderInputs = () => (
-      <div className={styles.itemParams}>
-        Inputs:{' '}
-        {item.inputs?.length ? item.inputs.map(input => `${input.name || ''}: ${input.type}`).join(', ') : 'none'}
-      </div>
-    )
-
-    const renderOutputs = () => {
-      if (item.type === 'event' || item.type === 'error') return null
-      return (
-        <div className={styles.itemParams}>
-          Outputs:{' '}
-          {item.outputs?.length
-            ? item.outputs.map(output => `${output.name || ''}: ${output.type}`).join(', ')
-            : 'none'}
-        </div>
-      )
-    }
-
-    const renderStateMutability = () => {
-      if ('stateMutability' in item && item.stateMutability) {
-        return <span className={styles.mutability}>[{item.stateMutability}]</span>
-      }
-      return null
-    }
-
-    return (
-      <div className={styles.itemDetails}>
-        <div className={styles.itemHeader}>
-          {getTypeTag()}
-          <strong>{item.name}</strong>
-          {renderStateMutability()}
-        </div>
-        {renderInputs()}
-        {renderOutputs()}
-      </div>
-    )
-  }
 
   const syntaxHighlight = (json: string) => {
     const highlighted = json.replace(
@@ -404,7 +360,7 @@ export default function AbiManager() {
                   checked={selectedItems.has(getItemId(item))}
                   onChange={() => toggleItem(getItemId(item))}
                 />
-                {renderItemDetails(item)}
+                <ItemDetails item={item} />
               </div>
             ))}
           </div>

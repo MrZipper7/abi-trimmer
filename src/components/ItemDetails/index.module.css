@@ -1,0 +1,54 @@
+.itemDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  .itemHeader {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .typeTag {
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: bold;
+
+    &.function {
+      background-color: #e3f2fd;
+      color: #1565c0;
+    }
+
+    &.event {
+      background-color: #f3e5f5;
+      color: #7b1fa2;
+    }
+
+    &.error {
+      background-color: #ffebee;
+      color: #c62828;
+    }
+
+    &.constructor {
+      background-color: #e8f5e9;
+      color: #2e7d32;
+    }
+  }
+
+  .itemParams {
+    font-family: monospace;
+    font-size: 0.9rem;
+    color: #666;
+
+		.label {
+			font-family: sans-serif;
+			font-weight: bold;
+		}
+  }
+
+  .mutability {
+    font-style: italic;
+    color: #666;
+  }
+}
