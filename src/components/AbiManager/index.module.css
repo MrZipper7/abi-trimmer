@@ -12,7 +12,6 @@
   width: 100%;
   min-height: 200px;
   padding: 1rem;
-  margin: 1rem 0;
   font-family: monospace;
 }
 
@@ -41,31 +40,10 @@
   grid-template-columns: auto 1fr;
   gap: 1rem;
   padding: 1rem;
-  border-bottom: 1px solid #eee;
-}
 
-.button {
-  padding: 0.5rem 1rem;
-  background-color: #0066cc;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  margin: 0.5rem;
-}
-
-.button:hover {
-  background-color: #0052a3;
-}
-
-.secondaryButton {
-  background-color: #f5f5f5;
-  color: #333;
-  border: 1px solid #ccc;
-}
-
-.secondaryButton:hover {
-  background-color: #e0e0e0;
+  + .itemRow {
+    border-top: 1px solid #eee;
+  }
 }
 
 .error {
@@ -77,15 +55,6 @@
   display: flex;
   gap: 0.5rem;
   align-items: center;
-}
-
-.resetButton {
-  background-color: #e83345;
-  color: white;
-}
-
-.resetButton:hover {
-  background-color: #cc0000;
 }
 
 .previewSection {
@@ -107,4 +76,3 @@
   border-radius: 4px;
   font-size: 0.9rem;
 }
-

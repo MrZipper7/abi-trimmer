@@ -43,13 +43,12 @@
 
 .previewLabel {
   font-weight: bold;
-  margin-bottom: 0.5rem;
 }
 
 .previewControls {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   margin-bottom: 0.5rem;
 }
 

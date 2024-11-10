@@ -1,13 +1,15 @@
 import { useState, useCallback, useMemo } from 'react'
 import type { Abi } from 'abitype'
-import clsx from 'clsx'
-import { useDownloadAbi } from '../hooks/useDownloadAbi'
-import { FormatType, type AbiItem, type FormatOptions, type ItemFilters } from '../types'
-import { FormatPreview } from './FormatPreview'
-import { ItemDetails } from './ItemDetails'
-import styles from './AbiManager.module.css'
+import { useDownloadAbi } from '../../hooks/useDownloadAbi'
+import { FormatType, type AbiItem, type FormatOptions, type ItemFilters } from '../../types'
+import { getItemId } from '../../utils/getItemId'
+import { Button } from '../Button'
+import { FormatPreview } from '../FormatPreview'
+import { ItemDetails } from '../ItemDetails'
+import { SelectedItemStats } from '../SelectedItemStats'
+import styles from './index.module.css'
 
-export default function AbiManager() {
+export function AbiManager() {
   const downloadAbi = useDownloadAbi()
   const [abiInput, setAbiInput] = useState<string>('')
   const [parsedAbi, setParsedAbi] = useState<AbiItem[]>([])
@@ -50,11 +52,6 @@ export default function AbiManager() {
     }
   }, [abiInput])
 
-  const getItemId = (item: AbiItem): string => {
-    const inputs = item.inputs?.map(input => input.type).join(',') || ''
-    return `${item.type}-${item.name}(${inputs})`
-  }
-
   const filteredItems = useMemo(() => {
     return parsedAbi.filter(item => {
       const matchesType = !filters.type || item.type === filters.type
@@ -90,50 +87,6 @@ export default function AbiManager() {
     return parsedAbi.filter(item => selectedItems.has(getItemId(item)))
   }, [parsedAbi, selectedItems])
 
-  const renderFormatControls = () => (
-    <div className={styles.formatControls}>
-      <select
-        className={styles.selectSmall}
-        value={formatOptions.indentation}
-        onChange={e =>
-          setFormatOptions(prev => ({
-            ...prev,
-            indentation: Number(e.target.value),
-          }))
-        }
-      >
-        <option value="2">2 spaces</option>
-        <option value="4">4 spaces</option>
-      </select>
-      <label>
-        <input
-          type="checkbox"
-          checked={formatOptions.minified}
-          onChange={e =>
-            setFormatOptions(prev => ({
-              ...prev,
-              minified: e.target.checked,
-            }))
-          }
-        />
-        Minify
-      </label>
-      <label>
-        <input
-          type="checkbox"
-          checked={formatOptions.wordWrap}
-          onChange={e =>
-            setFormatOptions(prev => ({
-              ...prev,
-              wordWrap: e.target.checked,
-            }))
-          }
-        />
-        Wrap Lines
-      </label>
-    </div>
-  )
-
   return (
     <div className={styles.container}>
       <h1>ABI Manager</h1>
@@ -145,14 +98,11 @@ export default function AbiManager() {
           value={abiInput}
           onChange={e => setAbiInput(e.target.value)}
           placeholder="Paste your ABI here..."
+          spellCheck={false}
         />
         <div className={styles.buttonGroup}>
-          <button className={styles.button} onClick={parseAbiInput}>
-            Parse ABI
-          </button>
-          <button className={clsx(styles.button, styles.resetButton)} onClick={resetState}>
-            Reset
-          </button>
+          <Button text="Parse ABI" onClick={parseAbiInput} />
+          <Button text="Reset" onClick={resetState} type="reset" />
         </div>
         {error && <div className={styles.error}>{error}</div>}
       </div>
@@ -167,15 +117,12 @@ export default function AbiManager() {
               value={filters.searchTerm}
               onChange={e => setFilters(prev => ({ ...prev, searchTerm: e.target.value }))}
             />
-            <button className={clsx(styles.button, styles.secondaryButton)} onClick={selectAll}>
-              Select All
-            </button>
-            <button className={clsx(styles.button, styles.secondaryButton)} onClick={deselectAll}>
-              Deselect All
-            </button>
+            <Button text="Select All" onClick={selectAll} type="secondary" />
+            <Button text="Deselect All" onClick={deselectAll} type="secondary" />
           </div>
 
           <div className={styles.itemList}>
+            <SelectedItemStats selectedAbi={selectedAbi} />
             {filteredItems.map(item => (
               <div key={getItemId(item)} className={styles.itemRow}>
                 <input
@@ -186,19 +133,60 @@ export default function AbiManager() {
                 <ItemDetails item={item} />
               </div>
             ))}
+            <SelectedItemStats selectedAbi={selectedAbi} />
           </div>
-          {renderFormatControls()}
+
+          <h2>Output ABI</h2>
+          <div className={styles.formatControls}>
+            <select
+              className={styles.selectSmall}
+              value={formatOptions.indentation}
+              onChange={e =>
+                setFormatOptions(prev => ({
+                  ...prev,
+                  indentation: Number(e.target.value),
+                }))
+              }
+            >
+              <option value="2">2 spaces</option>
+              <option value="4">4 spaces</option>
+            </select>
+            <label>
+              <input
+                type="checkbox"
+                checked={formatOptions.minified}
+                onChange={e =>
+                  setFormatOptions(prev => ({
+                    ...prev,
+                    minified: e.target.checked,
+                  }))
+                }
+              />
+              Minify
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                checked={formatOptions.wordWrap}
+                onChange={e =>
+                  setFormatOptions(prev => ({
+                    ...prev,
+                    wordWrap: e.target.checked,
+                  }))
+                }
+              />
+              Wrap Lines
+            </label>
+          </div>
+
           <div className={styles.previewSection}>
             <FormatPreview selectedAbi={selectedAbi} type={FormatType.JSON} formatOptions={formatOptions} />
             <FormatPreview selectedAbi={selectedAbi} type={FormatType.HUMAN} formatOptions={formatOptions} />
           </div>
-          <div>
-            <button className={styles.button} onClick={() => downloadAbi(selectedAbi, FormatType.JSON)}>
-              Download JSON ABI
-            </button>
-            <button className={styles.button} onClick={() => downloadAbi(selectedAbi, FormatType.HUMAN)}>
-              Download Human Readable ABI
-            </button>
+
+          <div className={styles.buttonGroup}>
+            <Button text="Download JSON ABI" onClick={() => downloadAbi(selectedAbi, FormatType.JSON)} />
+            <Button text="Download Human Readable ABI" onClick={() => downloadAbi(selectedAbi, FormatType.HUMAN)} />
           </div>
         </>
       )}

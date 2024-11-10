@@ -1,4 +1,4 @@
-import AbiManager from './components/AbiManager'
+import { AbiManager } from './components/AbiManager'
 
 function App() {
   return <AbiManager />
