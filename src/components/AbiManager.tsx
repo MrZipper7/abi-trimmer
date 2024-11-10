@@ -1,7 +1,19 @@
 import { useState, useCallback, useMemo } from 'react'
 import { type Abi, formatAbi } from 'abitype'
+import { Copy, Check } from 'lucide-react'
 import type { AbiItem, ItemFilters } from '../types'
 import styles from './AbiManager.module.css'
+
+interface FormatOptions {
+  indentation: number;
+  minified: boolean;
+  wordWrap: boolean;
+}
+
+interface PreviewCopyState {
+  json: boolean;
+  human: boolean;
+}
 
 export default function AbiManager() {
   const [abiInput, setAbiInput] = useState<string>('')
@@ -12,6 +24,15 @@ export default function AbiManager() {
     type: '',
     searchTerm: ''
   })
+  const [formatOptions, setFormatOptions] = useState<FormatOptions>({
+    indentation: 2,
+    minified: false,
+    wordWrap: true,
+  })
+  const [copyState, setCopyState] = useState<PreviewCopyState>({
+    json: false,
+    human: false,
+  })
 
   const resetState = useCallback(() => {
     setAbiInput('')
@@ -19,6 +40,15 @@ export default function AbiManager() {
     setSelectedItems(new Set())
     setError('')
     setFilters({ type: '', searchTerm: '' })
+    setFormatOptions({
+      indentation: 2,
+      minified: false,
+      wordWrap: true,
+    })
+    setCopyState({
+      json: false,
+      human: false,
+    })
   }, [])
 
   const parseAbiInput = useCallback(() => {
@@ -74,39 +104,102 @@ export default function AbiManager() {
     setSelectedItems(new Set())
   }, [])
 
-  // const selectAllByType = useCallback((type: string) => {
-  //   const itemsToSelect = parsedAbi
-  //     .filter(item => item.type === type)
-  //     .map(item => getItemId(item))
-    
-  //   setSelectedItems(prev => {
-  //     const newSet = new Set(prev)
-  //     itemsToSelect.forEach(id => newSet.add(id))
-  //     return newSet
-  //   })
-  // }, [parsedAbi])
-
-  // const deselectAllByType = useCallback((type: string) => {
-  //   setSelectedItems(prev => {
-  //     const newSet = new Set(prev)
-  //     parsedAbi
-  //       .filter(item => item.type === type)
-  //       .forEach(item => newSet.delete(getItemId(item)))
-  //     return newSet
-  //   })
-  // }, [parsedAbi])
-
   const getSelectedAbi = useCallback(() => {
     return parsedAbi.filter(item => selectedItems.has(getItemId(item)))
   }, [parsedAbi, selectedItems])
 
-  const getFilteredAbiPreview = useCallback(() => {
-    const selectedAbi = getSelectedAbi()
-    return {
-      json: JSON.stringify(selectedAbi, null, 2),
-      human: JSON.stringify(formatAbi(selectedAbi), null, 2)
-    }
-  }, [getSelectedAbi])
+  const renderPreviewSection = () => {
+    const stats = getStats();
+    
+    return (
+      <div className={styles.previewSection}>
+        <div className={styles.previewBox}>
+          <div className={styles.previewControls}>
+            <div className={styles.previewLabel}>JSON ABI Preview</div>
+            <button
+              className={`${styles.copyButton} ${styles.tooltip}`}
+              onClick={() => copyToClipboard('json')}
+              data-tooltip="Copy to clipboard"
+            >
+              {copyState.json ? <Check size={14} /> : <Copy size={14} />}
+              {copyState.json ? 'Copied!' : 'Copy'}
+            </button>
+          </div>
+          <div className={styles.previewStats}>
+            Selected: {stats.selectedCount.functions} functions, {stats.selectedCount.events} events
+            <br />
+            Size: {stats.size.json}KB • Characters: {stats.chars.json}
+          </div>
+          <pre style={{ 
+            whiteSpace: formatOptions.wordWrap ? 'pre-wrap' : 'pre',
+          }} 
+          dangerouslySetInnerHTML={{ __html: getPreviewContent('json') }}
+          />
+        </div>
+        <div className={styles.previewBox}>
+          <div className={styles.previewControls}>
+            <div className={styles.previewLabel}>Human Readable ABI Preview</div>
+            <button
+              className={`${styles.copyButton} ${styles.tooltip}`}
+              onClick={() => copyToClipboard('human')}
+              data-tooltip="Copy to clipboard"
+            >
+              {copyState.human ? <Check size={14} /> : <Copy size={14} />}
+              {copyState.human ? 'Copied!' : 'Copy'}
+            </button>
+          </div>
+          <div className={styles.previewStats}>
+            Selected: {stats.selectedCount.functions} functions, {stats.selectedCount.events} events
+            <br />
+            Size: {stats.size.human}KB • Characters: {stats.chars.human}
+          </div>
+          <pre style={{ 
+            whiteSpace: formatOptions.wordWrap ? 'pre-wrap' : 'pre',
+          }}
+          dangerouslySetInnerHTML={{ __html: getPreviewContent('human') }}
+          />
+        </div>
+      </div>
+    );
+  };
+
+  const renderFormatControls = () => (
+    <div className={styles.formatControls}>
+      <select
+        className={styles.selectSmall}
+        value={formatOptions.indentation}
+        onChange={e => setFormatOptions(prev => ({ 
+          ...prev, 
+          indentation: Number(e.target.value) 
+        }))}
+      >
+        <option value="2">2 spaces</option>
+        <option value="4">4 spaces</option>
+      </select>
+      <label>
+        <input
+          type="checkbox"
+          checked={formatOptions.minified}
+          onChange={e => setFormatOptions(prev => ({ 
+            ...prev, 
+            minified: e.target.checked 
+          }))}
+        />
+        Minify
+      </label>
+      <label>
+        <input
+          type="checkbox"
+          checked={formatOptions.wordWrap}
+          onChange={e => setFormatOptions(prev => ({ 
+            ...prev, 
+            wordWrap: e.target.checked 
+          }))}
+        />
+        Wrap Lines
+      </label>
+    </div>
+  );
 
   const downloadAbi = useCallback((format: 'json' | 'human') => {
     const selectedAbi = getSelectedAbi()
@@ -178,6 +271,74 @@ export default function AbiManager() {
     )
   }
 
+  const syntaxHighlight = (json: string) => {
+    const highlighted = json.replace(
+      /("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\\-]?\d+)?)/g,
+      (match) => {
+        let cls = 'number';
+        if (/^"/.test(match)) {
+          if (/:$/.test(match)) {
+            cls = 'key';
+          } else {
+            cls = 'string';
+          }
+        } else if (/true|false/.test(match)) {
+          cls = 'boolean';
+        } else if (/null/.test(match)) {
+          cls = 'null';
+        }
+        return `<span class="${styles[cls]}">${match}</span>`;
+      }
+    );
+    return highlighted;
+  };
+
+  const getPreviewContent = useCallback((format: 'json' | 'human') => {
+    const selectedAbi = getSelectedAbi();
+    const content = format === 'json' 
+      ? JSON.stringify(selectedAbi, null, formatOptions.minified ? 0 : formatOptions.indentation)
+      : JSON.stringify(formatAbi(selectedAbi), null, formatOptions.minified ? 0 : formatOptions.indentation);
+    
+    return formatOptions.minified ? content : syntaxHighlight(content);
+  }, [getSelectedAbi, formatOptions]);
+
+  const getStats = useCallback(() => {
+    const selectedAbi = getSelectedAbi();
+    const jsonContent = JSON.stringify(selectedAbi, null, formatOptions.minified ? 0 : formatOptions.indentation)
+    const humanContent = JSON.stringify(formatAbi(selectedAbi), null, formatOptions.minified ? 0 : formatOptions.indentation);
+    
+    return {
+      selectedCount: {
+        functions: selectedAbi.filter(item => item.type === 'function').length,
+        events: selectedAbi.filter(item => item.type === 'event').length,
+      },
+      size: {
+        json: (new Blob([jsonContent]).size / 1024).toFixed(2),
+        human: (new Blob([humanContent]).size / 1024).toFixed(2),
+      },
+      chars: {
+        json: jsonContent.length,
+        human: humanContent.length,
+      },
+    };
+  }, [formatOptions.indentation, formatOptions.minified, getSelectedAbi]);
+
+  const copyToClipboard = useCallback(async (format: 'json' | 'human') => {
+    const content = format === 'json' 
+      ? JSON.stringify(getSelectedAbi(), null, formatOptions.minified ? 0 : formatOptions.indentation)
+      : JSON.stringify(formatAbi(getSelectedAbi()), null, formatOptions.minified ? 0 : formatOptions.indentation);
+    
+    try {
+      await navigator.clipboard.writeText(content);
+      setCopyState(prev => ({ ...prev, [format]: true }));
+      setTimeout(() => {
+        setCopyState(prev => ({ ...prev, [format]: false }));
+      }, 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+  }, [getSelectedAbi, formatOptions]);
+
   return (
     <div className={styles.container}>
       <h1>ABI Manager</h1>
@@ -226,30 +387,6 @@ export default function AbiManager() {
             >
               Deselect All
             </button>
-            {/* <button
-              className={`${styles.button} ${styles.secondaryButton}`}
-              onClick={() => selectAllByType('function')}
-            >
-              Select All Functions
-            </button>
-            <button
-              className={`${styles.button} ${styles.secondaryButton}`}
-              onClick={() => deselectAllByType('function')}
-            >
-              Deselect Functions
-            </button>
-            <button
-              className={`${styles.button} ${styles.secondaryButton}`}
-              onClick={() => selectAllByType('event')}
-            >
-              Select All Events
-            </button>
-            <button
-              className={`${styles.button} ${styles.secondaryButton}`}
-              onClick={() => deselectAllByType('event')}
-            >
-              Deselect Events
-            </button> */}
           </div>
 
           <div className={styles.itemList}>
@@ -264,18 +401,8 @@ export default function AbiManager() {
               </div>
             ))}
           </div>
-
-          <div className={styles.previewSection}>
-            <div className={styles.previewBox}>
-              <div className={styles.previewLabel}>JSON ABI</div>
-              <pre>{getFilteredAbiPreview().json}</pre>
-            </div>
-            <div className={styles.previewBox}>
-              <div className={styles.previewLabel}>Human Readable ABI</div>
-              <pre>{getFilteredAbiPreview().human}</pre>
-            </div>
-          </div>
-
+          {renderFormatControls()}
+          {renderPreviewSection()}
           <div>
             <button
               className={styles.button}

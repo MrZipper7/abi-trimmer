@@ -140,9 +140,9 @@
   
   .previewSection {
     margin: 2rem 0;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
   }
   
   .previewBox {
@@ -219,7 +219,7 @@
   .tooltip:hover::after {
     content: attr(data-tooltip);
     position: absolute;
-    bottom: 100%;
+    bottom: 130%;
     left: 50%;
     transform: translateX(-50%);
     padding: 0.25rem 0.5rem;
