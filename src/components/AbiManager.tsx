@@ -1,12 +1,14 @@
 import { useState, useCallback, useMemo } from 'react'
-import { type Abi, formatAbi } from 'abitype'
+import type { Abi } from 'abitype'
 import clsx from 'clsx'
+import { useDownloadAbi } from '../hooks/useDownloadAbi'
 import { FormatType, type AbiItem, type FormatOptions, type ItemFilters } from '../types'
 import { FormatPreview } from './FormatPreview'
 import { ItemDetails } from './ItemDetails'
 import styles from './AbiManager.module.css'
 
 export default function AbiManager() {
+  const downloadAbi = useDownloadAbi()
   const [abiInput, setAbiInput] = useState<string>('')
   const [parsedAbi, setParsedAbi] = useState<AbiItem[]>([])
   const [selectedItems, setSelectedItems] = useState<Set<string>>(new Set())
@@ -132,29 +134,6 @@ export default function AbiManager() {
     </div>
   )
 
-  const downloadAbi = useCallback(
-    (format: FormatType) => {
-      let content: string
-
-      if (format === FormatType.JSON) {
-        content = JSON.stringify(selectedAbi, null, 2)
-      } else {
-        content = JSON.stringify(formatAbi(selectedAbi), null, 2)
-      }
-
-      const blob = new Blob([content], { type: 'text/plain' })
-      const url = URL.createObjectURL(blob)
-      const a = document.createElement('a')
-      a.href = url
-      a.download = `selected-abi.${format === FormatType.JSON ? 'json' : 'txt'}`
-      document.body.appendChild(a)
-      a.click()
-      document.body.removeChild(a)
-      URL.revokeObjectURL(url)
-    },
-    [selectedAbi]
-  )
-
   return (
     <div className={styles.container}>
       <h1>ABI Manager</h1>
@@ -214,10 +193,10 @@ export default function AbiManager() {
             <FormatPreview selectedAbi={selectedAbi} type={FormatType.HUMAN} formatOptions={formatOptions} />
           </div>
           <div>
-            <button className={styles.button} onClick={() => downloadAbi(FormatType.JSON)}>
+            <button className={styles.button} onClick={() => downloadAbi(selectedAbi, FormatType.JSON)}>
               Download JSON ABI
             </button>
-            <button className={styles.button} onClick={() => downloadAbi(FormatType.HUMAN)}>
+            <button className={styles.button} onClick={() => downloadAbi(selectedAbi, FormatType.HUMAN)}>
               Download Human Readable ABI
             </button>
           </div>
