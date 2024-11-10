@@ -1,8 +1,8 @@
-import type { AbiError, AbiEvent, AbiFunction } from "abitype";
+import type { AbiError, AbiEvent, AbiFunction } from 'abitype'
 
-export type AbiItem = AbiError | AbiEvent | AbiFunction;
+export type AbiItem = AbiError | AbiEvent | AbiFunction
 
 export interface ItemFilters {
-  type?: string;
-  searchTerm?: string;
+  type?: string
+  searchTerm?: string
 }

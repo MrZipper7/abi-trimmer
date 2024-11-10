@@ -1,246 +1,259 @@
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
-  }
-  
-  .inputSection {
-    margin-bottom: 2rem;
-  }
-  
-  .textarea {
-    width: 100%;
-    min-height: 200px;
-    padding: 1rem;
-    margin: 1rem 0;
-    font-family: monospace;
-  }
-  
-  .filterSection {
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
-    margin: 1rem 0;
-  }
-  
-  .searchInput {
-    margin: 0.5rem;
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    min-width: 200px;
-    height: 19px;
-  }
-  
-  .itemList {
-    margin: 2rem 0;
-  }
-  
-  .itemRow {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 1rem;
-    padding: 1rem;
-    border-bottom: 1px solid #eee;
-  }
-  
-  .itemDetails {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  
-  .itemHeader {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-  
-  .typeTag {
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.8rem;
-    font-weight: bold;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
 
-    &.function {
-      background-color: #e3f2fd;
-      color: #1565c0;
-    }
-    
-    &.event {
-      background-color: #f3e5f5;
-      color: #7b1fa2;
-    }
-    
-    &.error {
-      background-color: #ffebee;
-      color: #c62828;
-    }
-    
-    &.constructor {
-      background-color: #e8f5e9;
-      color: #2e7d32;
-    }
-  }
-    
-  .itemParams {
-    font-family: monospace;
-    font-size: 0.9rem;
-    color: #666;
-  }
-  
-  .mutability {
-    font-style: italic;
-    color: #666;
-  }
-  
-  .button {
-    padding: 0.5rem 1rem;
-    background-color: #0066cc;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin: 0.5rem;
-  }
-  
-  .button:hover {
-    background-color: #0052a3;
-  }
-  
-  .secondaryButton {
-    background-color: #f5f5f5;
-    color: #333;
-    border: 1px solid #ccc;
-  }
-  
-  .secondaryButton:hover {
-    background-color: #e0e0e0;
-  }
-  
-  .error {
-    color: red;
-    margin: 1rem 0;
+.inputSection {
+  margin-bottom: 2rem;
+}
+
+.textarea {
+  width: 100%;
+  min-height: 200px;
+  padding: 1rem;
+  margin: 1rem 0;
+  font-family: monospace;
+}
+
+.filterSection {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin: 1rem 0;
+}
+
+.searchInput {
+  margin: 0.5rem;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  min-width: 200px;
+  height: 19px;
+}
+
+.itemList {
+  margin: 2rem 0;
+}
+
+.itemRow {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1rem;
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.itemDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.itemHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.typeTag {
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: bold;
+
+  &.function {
+    background-color: #e3f2fd;
+    color: #1565c0;
   }
 
-  .buttonGroup {
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
+  &.event {
+    background-color: #f3e5f5;
+    color: #7b1fa2;
   }
-  
-  .resetButton {
-    background-color: #e83345;
-    color: white;
-  }
-  
-  .resetButton:hover {
-    background-color: #cc0000;
-  }
-  
-  .previewSection {
-    margin: 2rem 0;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-  }
-  
-  .previewBox {
-    border: 1px solid #ccc;
-    padding: 1rem;
-    border-radius: 4px;
-    background-color: #f8f8f8;
-  }
-  
-  .previewBox pre {
-    margin: 0;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    max-height: 300px;
-    overflow-y: auto;
-    font-family: monospace;
-    font-size: 0.9rem;
-  }
-  
-  .previewLabel {
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-  }
-  
 
+  &.error {
+    background-color: #ffebee;
+    color: #c62828;
+  }
 
+  &.constructor {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+  }
+}
 
-  .previewControls {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0.5rem;
-  }
-  
-  .previewStats {
-    font-size: 0.9rem;
-    color: #666;
-    margin-bottom: 0.5rem;
-  }
-  
-  .formatControls {
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
-  }
-  
-  .selectSmall {
-    padding: 0.25rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 0.9rem;
-  }
-  
-  .copyButton {
-    padding: 0.25rem 0.5rem;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 0.9rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-  }
-  
-  .copyButton:hover {
-    background-color: #e0e0e0;
-  }
-  
-  .tooltip {
-    position: relative;
-  }
-  
-  .tooltip:hover::after {
-    content: attr(data-tooltip);
-    position: absolute;
-    bottom: 130%;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 0.25rem 0.5rem;
-    background-color: #333;
-    color: white;
-    border-radius: 4px;
-    font-size: 0.8rem;
-    white-space: nowrap;
-    z-index: 1;
-  }
-  
-  .previewBox pre {
-    font-size: 0.9rem;
-    line-height: 1.4;
-  }
-  
-  .previewBox pre .string { color: #22863a; }
-  .previewBox pre .number { color: #005cc5; }
-  .previewBox pre .boolean { color: #005cc5; }
-  .previewBox pre .null { color: #005cc5; }
-  .previewBox pre .key { color: #24292e; }
-  .previewBox pre .punctuation { color: #24292e; }
-  .previewBox pre .function { color: #6f42c1; }
-  .previewBox pre .event { color: #e36209; }
+.itemParams {
+  font-family: monospace;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.mutability {
+  font-style: italic;
+  color: #666;
+}
+
+.button {
+  padding: 0.5rem 1rem;
+  background-color: #0066cc;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 0.5rem;
+}
+
+.button:hover {
+  background-color: #0052a3;
+}
+
+.secondaryButton {
+  background-color: #f5f5f5;
+  color: #333;
+  border: 1px solid #ccc;
+}
+
+.secondaryButton:hover {
+  background-color: #e0e0e0;
+}
+
+.error {
+  color: red;
+  margin: 1rem 0;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.resetButton {
+  background-color: #e83345;
+  color: white;
+}
+
+.resetButton:hover {
+  background-color: #cc0000;
+}
+
+.previewSection {
+  margin: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.previewBox {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+}
+
+.previewBox pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  max-height: 300px;
+  overflow-y: auto;
+  font-family: monospace;
+  font-size: 0.9rem;
+}
+
+.previewLabel {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.previewControls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.previewStats {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.formatControls {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.selectSmall {
+  padding: 0.25rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.copyButton {
+  padding: 0.25rem 0.5rem;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.copyButton:hover {
+  background-color: #e0e0e0;
+}
+
+.tooltip {
+  position: relative;
+}
+
+.tooltip:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 130%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.25rem 0.5rem;
+  background-color: #333;
+  color: white;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  z-index: 1;
+}
+
+.previewBox pre {
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.previewBox pre .string {
+  color: #22863a;
+}
+.previewBox pre .number {
+  color: #005cc5;
+}
+.previewBox pre .boolean {
+  color: #005cc5;
+}
+.previewBox pre .null {
+  color: #005cc5;
+}
+.previewBox pre .key {
+  color: #24292e;
+}
+.previewBox pre .punctuation {
+  color: #24292e;
+}
+.previewBox pre .function {
+  color: #6f42c1;
+}
+.previewBox pre .event {
+  color: #e36209;
+}

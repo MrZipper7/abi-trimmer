@@ -1,9 +1,7 @@
 import AbiManager from './components/AbiManager'
 
 function App() {
-  return (
-      <AbiManager />
-  )
+  return <AbiManager />
 }
 
 export default App
