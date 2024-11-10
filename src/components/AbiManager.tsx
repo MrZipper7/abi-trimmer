@@ -84,7 +84,7 @@ export default function AbiManager() {
     setSelectedItems(new Set())
   }, [])
 
-  const getSelectedAbi = useCallback(() => {
+  const selectedAbi = useMemo(() => {
     return parsedAbi.filter(item => selectedItems.has(getItemId(item)))
   }, [parsedAbi, selectedItems])
 
@@ -134,7 +134,6 @@ export default function AbiManager() {
 
   const downloadAbi = useCallback(
     (format: FormatType) => {
-      const selectedAbi = getSelectedAbi()
       let content: string
 
       if (format === FormatType.JSON) {
@@ -153,7 +152,7 @@ export default function AbiManager() {
       document.body.removeChild(a)
       URL.revokeObjectURL(url)
     },
-    [getSelectedAbi]
+    [selectedAbi]
   )
 
   return (
@@ -211,8 +210,8 @@ export default function AbiManager() {
           </div>
           {renderFormatControls()}
           <div className={styles.previewSection}>
-            <FormatPreview selectedAbi={getSelectedAbi()} type={FormatType.JSON} formatOptions={formatOptions} />
-            <FormatPreview selectedAbi={getSelectedAbi()} type={FormatType.HUMAN} formatOptions={formatOptions} />
+            <FormatPreview selectedAbi={selectedAbi} type={FormatType.JSON} formatOptions={formatOptions} />
+            <FormatPreview selectedAbi={selectedAbi} type={FormatType.HUMAN} formatOptions={formatOptions} />
           </div>
           <div>
             <button className={styles.button} onClick={() => downloadAbi(FormatType.JSON)}>
