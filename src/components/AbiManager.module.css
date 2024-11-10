@@ -95,41 +95,6 @@
   gap: 2rem;
 }
 
-.previewBox {
-  border: 1px solid #ccc;
-  padding: 1rem;
-  border-radius: 4px;
-  background-color: #f8f8f8;
-}
-
-.previewBox pre {
-  margin: 0;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  max-height: 300px;
-  overflow-y: auto;
-  font-family: monospace;
-  font-size: 0.9rem;
-}
-
-.previewLabel {
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-}
-
-.previewControls {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.5rem;
-}
-
-.previewStats {
-  font-size: 0.9rem;
-  color: #666;
-  margin-bottom: 0.5rem;
-}
-
 .formatControls {
   display: flex;
   gap: 0.5rem;
@@ -143,67 +108,3 @@
   font-size: 0.9rem;
 }
 
-.copyButton {
-  padding: 0.25rem 0.5rem;
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 0.9rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-.copyButton:hover {
-  background-color: #e0e0e0;
-}
-
-.tooltip {
-  position: relative;
-}
-
-.tooltip:hover::after {
-  content: attr(data-tooltip);
-  position: absolute;
-  bottom: 130%;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 0.25rem 0.5rem;
-  background-color: #333;
-  color: white;
-  border-radius: 4px;
-  font-size: 0.8rem;
-  white-space: nowrap;
-  z-index: 1;
-}
-
-.previewBox pre {
-  font-size: 0.9rem;
-  line-height: 1.4;
-}
-
-.previewBox pre .string {
-  color: #22863a;
-}
-.previewBox pre .number {
-  color: #005cc5;
-}
-.previewBox pre .boolean {
-  color: #005cc5;
-}
-.previewBox pre .null {
-  color: #005cc5;
-}
-.previewBox pre .key {
-  color: #24292e;
-}
-.previewBox pre .punctuation {
-  color: #24292e;
-}
-.previewBox pre .function {
-  color: #6f42c1;
-}
-.previewBox pre .event {
-  color: #e36209;
-}

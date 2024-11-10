@@ -1,0 +1,95 @@
+.previewBox {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+}
+
+.previewBox pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  max-height: 300px;
+  overflow-y: auto;
+  font-family: monospace;
+  font-size: 0.9rem;
+  line-height: 1.4;
+
+  .string {
+    color: #22863a;
+  }
+  .number {
+    color: #005cc5;
+  }
+  .boolean {
+    color: #005cc5;
+  }
+  .null {
+    color: #005cc5;
+  }
+  .key {
+    color: #24292e;
+  }
+  .punctuation {
+    color: #24292e;
+  }
+  .function {
+    color: #6f42c1;
+  }
+  .event {
+    color: #e36209;
+  }
+}
+
+.previewLabel {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.previewControls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.previewStats {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.copyButton {
+  padding: 0.25rem 0.5rem;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+
+  &:hover {
+    background-color: #e0e0e0;
+  }
+
+  &.tooltip {
+    position: relative;
+
+    &:hover::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: 130%;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 0.25rem 0.5rem;
+      background-color: #333;
+      color: white;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      white-space: nowrap;
+      z-index: 1;
+    }
+  }
+}
