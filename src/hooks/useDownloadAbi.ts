@@ -1,22 +1,19 @@
 import { useCallback } from 'react'
 import { type Abi, formatAbi } from 'abitype'
-import { FormatType } from 'types'
+import { FormatOptions, FormatType } from 'types'
 
 export function useDownloadAbi() {
-  return useCallback((selectedAbi: Abi, format: FormatType) => {
-    let content: string
-
-    if (format === FormatType.JSON) {
-      content = JSON.stringify(selectedAbi, null, 2)
-    } else {
-      content = JSON.stringify(formatAbi(selectedAbi), null, 2)
-    }
+  return useCallback((selectedAbi: Abi, format: FormatType, formatOptions: FormatOptions) => {
+    const content =
+      format === FormatType.JSON
+        ? JSON.stringify(selectedAbi, null, formatOptions.minified ? 0 : formatOptions.indentation)
+        : JSON.stringify(formatAbi(selectedAbi), null, formatOptions.minified ? 0 : formatOptions.indentation)
 
     const blob = new Blob([content], { type: 'text/plain' })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = `selected-abi.${format === FormatType.JSON ? 'json' : 'txt'}`
+    a.download = 'trimmedAbi.json'
     document.body.appendChild(a)
     a.click()
     document.body.removeChild(a)

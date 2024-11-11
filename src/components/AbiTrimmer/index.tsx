@@ -208,8 +208,8 @@ export function AbiTrimmer() {
           </div>
 
           <div className={styles.buttonGroup}>
-            <Button text="Download JSON ABI" onClick={() => downloadAbi(selectedAbi, FormatType.JSON)} />
-            <Button text="Download Human Readable ABI" onClick={() => downloadAbi(selectedAbi, FormatType.HUMAN)} />
+            <Button text="Download JSON ABI" onClick={() => downloadAbi(selectedAbi, FormatType.JSON, formatOptions)} />
+            <Button text="Download Human Readable ABI" onClick={() => downloadAbi(selectedAbi, FormatType.HUMAN, formatOptions)} />
           </div>
         </>
       )}
