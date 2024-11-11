@@ -1,7 +1,7 @@
-import { AbiManager } from './components/AbiManager'
+import { AbiTrimmer } from './components/AbiTrimmer'
 
 function App() {
-  return <AbiManager />
+  return <AbiTrimmer />
 }
 
 export default App

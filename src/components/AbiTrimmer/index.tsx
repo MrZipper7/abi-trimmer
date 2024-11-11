@@ -9,7 +9,7 @@ import { ItemDetails } from '../ItemDetails'
 import { SelectedItemStats } from '../SelectedItemStats'
 import styles from './index.module.css'
 
-export function AbiManager() {
+export function AbiTrimmer() {
   const downloadAbi = useDownloadAbi()
   const [abiInput, setAbiInput] = useState<string>('')
   const [parsedAbi, setParsedAbi] = useState<AbiItem[]>([])
@@ -89,7 +89,16 @@ export function AbiManager() {
 
   return (
     <div className={styles.container}>
-      <h1>ABI Manager</h1>
+      <h1>ABI Trimmer</h1>
+
+      <div>
+        <h2>Instructions</h2>
+        <ol>
+          <li>Paste a JSON-style ABI into the input box.</li>
+          <li>Select the items that you want in the final ABI.</li>
+          <li>Choose output options and copy or download the final ABI.</li>
+        </ol>
+      </div>
 
       <div className={styles.inputSection}>
         <h2>Input ABI</h2>
