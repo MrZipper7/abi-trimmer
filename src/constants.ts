@@ -31,7 +31,7 @@ const accessControlFunctions: string[] = [
 ] as const
 
 const pausableEvents: string[] = ['Paused', 'Unpaused'] as const
-const pausableFunctions: string[] = ['enabled', 'pause', 'paused', 'unpause', 'toggleEnabled'] as const
+const pausableFunctions: string[] = ['enabled', 'pause', 'paused', 'unpause', 'toggleEnabled', 'togglePause'] as const
 
 export const unusedEvents: string[] = [
   ...diamondEvents,
