@@ -5,6 +5,8 @@ import { useDownloadAbi } from 'hooks/useDownloadAbi'
 import { FormatType, type FormatOptions, type ItemFilters } from 'types'
 import { getItemId } from 'utils/getItemId'
 import { trimAbiItems } from 'utils/trimAbiItems'
+import twitter from '/x.svg'
+import github from '/github.svg'
 import { Button } from '../Button'
 import { FormatPreview } from '../FormatPreview'
 import { ItemDetails } from '../ItemDetails'
@@ -209,10 +211,24 @@ export function AbiTrimmer() {
 
           <div className={styles.buttonGroup}>
             <Button text="Download JSON ABI" onClick={() => downloadAbi(selectedAbi, FormatType.JSON, formatOptions)} />
-            <Button text="Download Human Readable ABI" onClick={() => downloadAbi(selectedAbi, FormatType.HUMAN, formatOptions)} />
+            <Button
+              text="Download Human Readable ABI"
+              onClick={() => downloadAbi(selectedAbi, FormatType.HUMAN, formatOptions)}
+            />
           </div>
         </>
       )}
+      <footer>
+        <p>Made by MrZipper</p>
+        <div className={styles.socialIcons}>
+          <a href="https://twitter.com/MrZipper7/" target="_blank" rel="noreferrer">
+            <img src={twitter} alt="x" />
+          </a>
+          <a href="https://github.com/MrZipper7/abi-trimmer/" target="_blank" rel="noreferrer">
+            <img src={github} alt="github" />
+          </a>
+        </div>
+      </footer>
     </div>
   )
 }
