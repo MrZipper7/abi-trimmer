@@ -2,9 +2,9 @@ import { useMemo } from 'react'
 import { type Abi, formatAbi } from 'abitype'
 import clsx from 'clsx'
 import { Check, Copy } from 'lucide-react'
-import { useCopyToClipboard } from '../../hooks/useCopyToClipboard'
-import { type FormatOptions, FormatType } from '../../types'
-import { highlightSyntax } from '../../utils/highlightSyntax'
+import { useCopyToClipboard } from 'hooks/useCopyToClipboard'
+import { type FormatOptions, FormatType } from 'types'
+import { highlightSyntax } from 'utils/highlightSyntax'
 import styles from './index.module.css'
 
 interface FormatPreviewProps {

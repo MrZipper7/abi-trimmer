@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { AbiItem } from '../../types'
+import { AbiItem } from 'types'
 import styles from './index.module.css'
 
 interface ItemDetailsProps {

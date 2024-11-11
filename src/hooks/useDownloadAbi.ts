@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import { type Abi, formatAbi } from 'abitype'
-import { FormatType } from '../types'
+import { FormatType } from 'types'
 
 export function useDownloadAbi() {
   return useCallback((selectedAbi: Abi, format: FormatType) => {
