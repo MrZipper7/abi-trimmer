@@ -10,7 +10,7 @@ export function SelectedItemStats({ selectedAbi }: SelectedItemStatsProps) {
     const typeCounts = selectedAbi.reduce<Record<string, number>>((acc, item) => {
       acc[item.type] = (acc[item.type] || 0) + 1
       return acc
-    }, {})
+    }, Object.create(null))
 
     return Object.entries(typeCounts)
       .map(([type, count]) => ({ type, count }))

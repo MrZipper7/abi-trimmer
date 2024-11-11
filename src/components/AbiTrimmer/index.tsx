@@ -1,7 +1,7 @@
 import { useState, useCallback, useMemo } from 'react'
 import type { Abi } from 'abitype'
 import { useDownloadAbi } from 'hooks/useDownloadAbi'
-import { FormatType, type AbiItem, type FormatOptions, type ItemFilters } from 'types'
+import { FormatType, type FormatOptions, type ItemFilters } from 'types'
 import { getItemId } from 'utils/getItemId'
 import { Button } from '../Button'
 import { FormatPreview } from '../FormatPreview'
@@ -12,7 +12,7 @@ import styles from './index.module.css'
 export function AbiTrimmer() {
   const downloadAbi = useDownloadAbi()
   const [abiInput, setAbiInput] = useState<string>('')
-  const [parsedAbi, setParsedAbi] = useState<AbiItem[]>([])
+  const [parsedAbi, setParsedAbi] = useState<Abi>([])
   const [selectedItems, setSelectedItems] = useState<Set<string>>(new Set())
   const [error, setError] = useState<string>('')
   const [filters, setFilters] = useState<ItemFilters>({
@@ -41,9 +41,8 @@ export function AbiTrimmer() {
   const parseAbiInput = useCallback(() => {
     try {
       const abi = JSON.parse(abiInput) as Abi
-      const filteredAbi = abi.filter(i => i.type !== 'constructor' && i.type !== 'fallback' && i.type !== 'receive')
-      setParsedAbi(filteredAbi)
-      setSelectedItems(new Set(filteredAbi.map(item => getItemId(item))))
+      setParsedAbi(abi)
+      setSelectedItems(new Set(abi.map(item => getItemId(item))))
       setError('')
     } catch (err: unknown) {
       console.log(err)
@@ -57,7 +56,7 @@ export function AbiTrimmer() {
       const matchesType = !filters.type || item.type === filters.type
       const matchesSearch =
         !filters.searchTerm ||
-        item.name?.toLowerCase().includes(filters.searchTerm.toLowerCase()) ||
+        ('name' in item && item.name?.toLowerCase().includes(filters.searchTerm.toLowerCase())) ||
         getItemId(item).toLowerCase().includes(filters.searchTerm.toLowerCase())
       return matchesType && matchesSearch
     })

@@ -1,6 +1,6 @@
-import type { AbiError, AbiEvent, AbiFunction } from 'abitype'
+import type { AbiConstructor, AbiError, AbiEvent, AbiFallback, AbiFunction, AbiReceive } from 'abitype'
 
-export type AbiItem = AbiError | AbiEvent | AbiFunction
+export type AbiItem = AbiConstructor | AbiError | AbiEvent | AbiFallback | AbiFunction | AbiReceive
 
 export interface ItemFilters {
   type?: string
@@ -15,5 +15,5 @@ export interface FormatOptions {
 
 export enum FormatType {
   JSON = 'json',
-  HUMAN = 'human'
+  HUMAN = 'human',
 }
