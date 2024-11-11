@@ -19,14 +19,14 @@ export function ItemDetails({ item }: ItemDetailsProps) {
       <div className={styles.itemParams}>
         <span className={styles.label}>Inputs:</span>{' '}
         {'inputs' in item && item.inputs?.length
-          ? item.inputs.map(input => `${input.name || ''}: ${input.type}`).join(', ')
+          ? item.inputs.map(input => (input.name ? `${input.name}: ${input.type}` : `${input.type}`)).join(', ')
           : 'none'}
       </div>
       {item.type !== 'event' && item.type !== 'error' && (
         <div className={styles.itemParams}>
           <span className={styles.label}>Outputs:</span>{' '}
           {'outputs' in item && item.outputs.length
-            ? item.outputs.map(output => `${output.name || ''}: ${output.type}`).join(', ')
+            ? item.outputs.map(output => output.name ? `${output.name}: ${output.type}` : `${output.type}`).join(', ')
             : 'none'}
         </div>
       )}
