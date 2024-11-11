@@ -1,8 +1,10 @@
 import { useState, useCallback, useMemo } from 'react'
 import type { Abi } from 'abitype'
+import { CircleHelp } from 'lucide-react'
 import { useDownloadAbi } from 'hooks/useDownloadAbi'
 import { FormatType, type FormatOptions, type ItemFilters } from 'types'
 import { getItemId } from 'utils/getItemId'
+import { trimAbiItems } from 'utils/trimAbiItems'
 import { Button } from '../Button'
 import { FormatPreview } from '../FormatPreview'
 import { ItemDetails } from '../ItemDetails'
@@ -127,6 +129,19 @@ export function AbiTrimmer() {
             />
             <Button text="Select All" onClick={selectAll} type="secondary" />
             <Button text="Deselect All" onClick={deselectAll} type="secondary" />
+            <div>
+              <Button
+                text="Trim Functions"
+                onClick={() => setSelectedItems(new Set(trimAbiItems(selectedAbi).map(item => getItemId(item))))}
+                type="secondary"
+              />
+              <span
+                className={styles.tooltip}
+                data-tooltip="Removes admin, role, ownership, and other uncommonly used functions & events"
+              >
+                <CircleHelp />
+              </span>
+            </div>
           </div>
 
           <div className={styles.itemList}>
