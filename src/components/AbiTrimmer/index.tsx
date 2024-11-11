@@ -129,19 +129,19 @@ export function AbiTrimmer() {
             />
             <Button text="Select All" onClick={selectAll} type="secondary" />
             <Button text="Deselect All" onClick={deselectAll} type="secondary" />
-            <div>
-              <Button
-                text="Trim Functions"
-                onClick={() => setSelectedItems(new Set(trimAbiItems(selectedAbi).map(item => getItemId(item))))}
-                type="secondary"
-              />
+            <Button
+              className={styles.tooltipButton}
+              text="Trim Functions"
+              onClick={() => setSelectedItems(new Set(trimAbiItems(selectedAbi).map(item => getItemId(item))))}
+              type="secondary"
+            >
               <span
                 className={styles.tooltip}
                 data-tooltip="Removes admin, role, ownership, and other uncommonly used functions & events"
               >
-                <CircleHelp />
+                <CircleHelp size={16} />
               </span>
-            </div>
+            </Button>
           </div>
 
           <div className={styles.itemList}>
